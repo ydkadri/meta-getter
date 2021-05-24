@@ -1,15 +1,23 @@
 #!/usr/bin/env python3
 
+'''
+A CLIck wrapper for Apache Tika and AWS Comprehend to identify PII in
+a provided filepath
+'''
+
 import os
 import json
 import subprocess
 
+from pprint import pformat
+from tika import parser
+
 import click
 
-from tika import parser
-from pprint import pformat
 
 def _parse_tika_output(fpath):
+    '''Use the Python Tika from_file parser and restructure the output
+    '''
     parsed = parser.from_file(fpath)
     text = parsed['content'].strip()
     meta = {
@@ -19,10 +27,14 @@ def _parse_tika_output(fpath):
     return text, meta
 
 def _parse_stdout(stdout):
+    '''Parse the stdout output of subprocess.run
+    '''
     lines = [line.strip() for line in stdout.decode().split('\n')]
     return json.loads(' '.join(lines))
 
 def _parse_comprehend_output(output):
+    '''Parse the output of AWS comprehend, removing the PII containing field
+    '''
     entities = {}
     for entity in output['Entities']:
         entity_type = entity['Type']
@@ -43,6 +55,8 @@ def _parse_comprehend_output(output):
     type=click.Path(exists=True),
 )
 def check_pii(fpath):
+    '''Check a given filepath for PII using AWS comprehend
+    '''
     fdir, fname = os.path.split(os.path.realpath(fpath))
     text, meta = _parse_tika_output(fpath)
     # AWS comprehend entity detection
@@ -63,4 +77,3 @@ def check_pii(fpath):
 
 if __name__ == '__main__':
     check_pii()
-
