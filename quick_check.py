@@ -54,7 +54,12 @@ def _parse_comprehend_output(output):
     'fpath',
     type=click.Path(exists=True),
 )
-def check_pii(fpath):
+@click.option(
+    '--pretty',
+    '-p',
+    is_flag=True
+)
+def check_pii(fpath, pretty):
     '''Check a given filepath for PII using AWS comprehend
     '''
     fdir, fname = os.path.split(os.path.realpath(fpath))
@@ -72,8 +77,11 @@ def check_pii(fpath):
     meta['filename'] = fname
     meta['file_dir'] = fdir
     meta['entities'] = _parse_comprehend_output(output)
-    formatted_output = pformat(meta)
-    click.echo(formatted_output)
+    if pretty:
+        formatted_output = pformat(meta)
+        click.echo(formatted_output)
+    else:
+        click.echo(meta)
 
 if __name__ == '__main__':
     check_pii()
