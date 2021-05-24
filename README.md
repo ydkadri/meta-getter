@@ -2,6 +2,20 @@
 # Meta Getter
 A quick and dirty tool for classifying document data for a Medium article
 
+## Setup
+```bash
+# Clone this repository
+git clone https://github.com/ydkadri/meta-getter.git
+
+# Install requirements
+cd meta-getter/
+python3 -m pip install -r requirements.txt
+
+# Optionally make the script directly executable from the CLI
+chmod u+x quick_check.py
+```
+
+
 ## Usage
 The `meta-getter` uses [Apache Tika](https://tika.apache.org/) and [AWS Comprehend](https://aws.amazon.com/comprehend/) to identify if a document contains entities such as __NAME__ or __ADDRESS__. To allow the program to be called directly from the CLI, the Python `click` library was used.
 
