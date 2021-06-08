@@ -2,6 +2,13 @@
 # Meta Getter
 A quick and dirty tool for classifying document data for a Medium article
 
+## TODO
+ - [ ] Resolve S3 file access issue
+ - [ ] Upload file to S3 bucket (hardcoded)
+ - [ ] Read file using `aws textract` command
+ - [ ] (optional) Remove file from S3
+ - [ ] update README.md
+
 ## Setup
 ```bash
 # Clone this repository
