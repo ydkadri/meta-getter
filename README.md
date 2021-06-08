@@ -9,6 +9,14 @@ A quick and dirty tool for classifying document data for a Medium article
  - [ ] (optional) Remove file from S3
  - [ ] update README.md
 
+### Baseline commands for AWS s3 and textract
+```bash
+s3 cp <source> s3://<bucket>
+aws textract detect-document-text \
+    --document '{"S3Object": {"Bucket": "<bucket>", "Name": "<filename>"}'
+aws s3 rm s3://<bucket>/<filename>
+```
+
 ## Setup
 ```bash
 # Clone this repository
